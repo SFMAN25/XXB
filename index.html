@@ -3,176 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XXSB PRO | منصة الألعاب الحية</title>
+    <title>XXSB PRO | منصة الألعاب والمراهنات الحية</title>
     <style>
-        body { background-color: #0b0f19; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 20px; }
-        .container { max-width: 450px; margin: 0 auto; background: #131a26; padding: 25px; border-radius: 15px; box-shadow: 0 0 15px rgba(0,255,204,0.2); border: 1px solid #1f2d42; }
-        h2, h3 { color: #00ffcc; }
-        input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #1f2d42; background: #0b0f19; color: #fff; text-align: center; font-size: 16px; }
-        input:focus { border-color: #00ffcc; outline: none; }
-        button { width: 95%; padding: 12px; background: #00ffcc; color: #0b0f19; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        button:hover { background: #00b38f; box-shadow: 0 0 10px #00ffcc; }
-        .hidden { display: none; }
-        .live-feed { background: #0b0f19; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid #00ffcc; height: 120px; overflow: hidden; }
-        .feed-item { padding: 6px; border-bottom: 1px solid #1f2d42; font-size: 14px; animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .info-box { background: #1d2736; padding: 10px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #00ffcc; }
+        body { background: #070a14; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 480px; background: #111625; border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 20px; padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); box-sizing: border-box; }
+        h2, h3 { text-align: center; color: #00f3ff; text-shadow: 0 0 10px rgba(0,243,255,0.3); margin-top: 0; }
+        
+        /* تابات التنقل بين الدخول والتسجيل */
+        .tabs { display: flex; margin-bottom: 25px; border-bottom: 2px solid #1f273a; }
+        .tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; color: #8a99ad; font-weight: bold; transition: 0.3s; }
+        .tab.active { color: #00f3ff; border-bottom: 2px solid #00f3ff; background: rgba(0,243,255,0.02); }
+        
+        input, select { width: 100%; padding: 14px; margin: 10px 0; background: #090d16; color: #fff; border: 1px solid rgba(0,243,255,0.15); border-radius: 10px; text-align: center; font-size: 15px; box-sizing: border-box; transition: 0.3s; }
+        input:focus, select:focus { border-color: #00f3ff; box-shadow: 0 0 10px rgba(0,243,255,0.2); outline: none; }
+        
+        button { width: 100%; padding: 14px; background: linear-gradient(135deg, #00f3ff, #00a8ff); color: #070a14; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,243,255,0.2); margin-top: 10px; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,243,255,0.4); }
+        
+        .hidden { display: none !important; }
+        .info-box { background: rgba(255,255,255,0.03); border-right: 4px solid #00f3ff; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 14px; text-align: right; }
+        .balance-title { font-size: 24px; color: #00ff66; text-shadow: 0 0 10px rgba(0,255,102,0.2); font-weight: bold; text-align: center; margin: 10px 0; }
+        
+        /* شريط العمليات الحية */
+        .live-feed { background: #090d16; border: 1px solid rgba(0,243,255,0.1); border-radius: 12px; padding: 15px; margin-top: 25px; height: 110px; overflow: hidden; box-sizing: border-box; }
+        .feed-item { padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 13px; text-align: center; animation: slideIn 0.4s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .form-section { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-top: 15px; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div id="auth-screen">
-            <h2>إنشاء حساب جديد 🔥</h2>
-            <input type="email" id="reg-email" placeholder="البريد الإلكتروني للعب" required>
-            <input type="password" id="reg-pass" placeholder="كلمة المرور" required>
-            <input type="text" id="reg-ref" placeholder="كود الإحالة (اختياري)">
-            <button id="btn-register">تسجيل الحساب وابدأ اللعب</button>
-        </div>
-
-        <div id="dashboard-screen" class="hidden">
-            <h2>مرحباً بك في المنصة 🎉</h2>
-            <div class="info-box">
-                <p>حسابك: <span id="user-email" style="color: #00ffcc;">-</span></p>
-                <h3>رصيدك الحالي: <span id="user-balance" style="color: #ffcc00;">0</span> ج.م</h3>
+        <div id="auth-container">
+            <div class="tabs">
+                <div class="tab active" id="tab-login" onclick="switchTab('login')">تسجيل الدخول</div>
+                <div class="tab" id="tab-register" onclick="switchTab('register')">إنشاء حساب جديد</div>
             </div>
             
-            <div class="info-box">
-                <p>كود الإحالة الخاص بك مشاركته تعطيك بونص:</p>
-                <strong id="user-ref-code" style="font-size: 18px; color: #00ffcc; letter-spacing: 2px;">-</strong>
+            <input type="email" id="auth-email" placeholder="البريد الإلكتروني">
+            <input type="password" id="auth-pass" placeholder="كلمة المرور">
+            
+            <div id="referral-field" class="hidden">
+                <input type="text" id="auth-ref" placeholder="كود الإحالة (اختياري)">
+            </div>
+            
+            <button id="btn-auth">دخول المنصة 🚀</button>
+        </div>
+
+        <div id="dashboard-container" class="hidden">
+            <h2>🎮 لوحة تحكم اللاعب الشخصية</h2>
+            
+            <div class="info-box" style="text-align: center;">
+                <div>مرحباً: <span id="user-email-display" style="color:#00f3ff; font-weight:bold;">-</span></div>
+                <div class="balance-title"><span id="user-balance-display">0</span> ج.م</div>
+                <div style="font-size: 11px; color: #8a99ad;">رصيدك المتوفر للعب والمضاعفة في XO</div>
             </div>
 
-            <div style="margin: 30px 0; padding: 20px; background: #0b0f19; border-radius: 10px; border: 1px dashed #1f2d42;">
-                🟢 نظام تحدي مضاعفة الرصيد (X-O) جاهز للعب بـ 5000 ج.م والربح دبل!
-                <button style="margin-top: 15px; background: #ffcc00; color: #000;">ابدأ اللعب الآن 🎮</button>
+            <div class="info-box">
+                📌 كود الإحالة الخاص بك: <strong id="my-ref-code" style="color: #ffcc00; letter-spacing: 1px;">-</strong>
+                <br><span style="font-size:11px; color:#8a99ad;">شاركه مع أصدقائك؛ وبمجرد تسجيلهم ستحصل فوراً على بونص 1000 ج.م بعد مراجعة الإدارة.</span>
             </div>
+
+            <div class="form-section">
+                <h3 style="font-size:16px; color:#ffcc00; margin-bottom:10px;">💸 بوابات الإيداع والسحب الذكية</h3>
+                <select id="action-type" onchange="toggleActionFields()">
+                    <option value="deposit">🟩 طلب شحن رصيد (إيداع)</option>
+                    <option value="withdraw">🟧 طلب سحب أرباح (سحب)</option>
+                </select>
+                
+                <select id="wallet-provider">
+                    <option value="فودافون كاش">فودافون كاش</option>
+                    <option value="اتصالات كاش">اتصالات كاش</option>
+                    <option value="أورنج كاش">أورنج كاش</option>
+                    <option value="إنستا باي">InstaPay</option>
+                </select>
+
+                <input type="number" id="action-amount" placeholder="المبلغ المطلوب (ج.م)">
+                <input type="text" id="action-number" placeholder="رقم محفظتك (الراسل / المستلم)">
+                
+                <button id="btn-submit-request" style="background: linear-gradient(135deg, #ffcc00, #ff9900); color: #000;">إرسال الطلب للإدارة فوراً</button>
+            </div>
+            
+            <button onclick="logout()" style="background: transparent; color: #ff0055; border: 1px solid #ff0055; margin-top: 15px; padding: 10px; box-shadow: none;">تسجيل الخروج</button>
         </div>
 
         <div class="live-feed">
-            <h4 style="margin: 0 0 10px 0; color: #00ffcc;">🔥 عمليات حية بالمنصة الآن</h4>
-            <div id="live-operations"></div>
+            <h4 style="margin: 0 0 8px 0; color: #00f3ff; text-align: center; font-size: 13px;">🔥 رادار العمليات الفورية بالمنصة</h4>
+            <div id="live-operations-box"></div>
         </div>
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc, increment, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // الـ Config الخاص بمشروعك xxsb-6bd79
         const firebaseConfig = {
-            apiKey: "ضع_هنا_الـ_API_KEY_الخاص_بك",
+            apiKey: "AIzaSyCyiLPBJ0qDVZhAtW5r0psuvz8iyIy8VLI",
             authDomain: "xxsb-6bd79.firebaseapp.com",
             projectId: "xxsb-6bd79",
-            storageBucket: "xxsb-6bd79.appspot.com",
-            messagingSenderId: "ضع_هنا_الـ_SENDER_ID",
-            appId: "ضع_هنا_الـ_APP_ID"
+            storageBucket: "xxsb-6bd79.firebasestorage.app",
+            messagingSenderId: "6915419205",
+            appId: "1:6915419205:web:915ec9496f35a3bfb9472c"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // دالة تتبع الـ IP والشبكة والجهاز للمستخدم
-        async function fetchNetworkData() {
+        let currentMode = 'login';
+        let currentUserData = null;
+
+        // دالة تحويل التابات بالتصميم الإبداعي
+        window.switchTab = function(mode) {
+            currentMode = mode;
+            document.getElementById('tab-login').classList.toggle('active', mode === 'login');
+            document.getElementById('tab-register').classList.toggle('active', mode === 'register');
+            document.getElementById('referral-field').classList.toggle('hidden', mode === 'login');
+            document.getElementById('btn-auth').innerText = mode === 'login' ? 'دخول المنصة 🚀' : 'تسجيل الحساب وابدأ بـ 5000 ج.م 🔥';
+        }
+
+        // دالة كشف تفاصيل اتصال جهاز العميل والـ IP والشبكة
+        async function getDeviceNetworkDetails() {
             try {
-                let response = await fetch('https://ipapi.co/json/');
-                let data = await response.json();
+                let res = await fetch('https://ipapi.co/json/');
+                let data = await res.json();
                 return {
                     ip: data.ip || "غير معروف",
-                    network: data.org || "غير معروف",
-                    device: navigator.userAgent.includes("Mobile") ? "موبايل" : "كمبيوتر / لابتوب"
+                    provider: data.org || "غير معروف",
+                    device: navigator.userAgent.includes("Mobile") ? "📱 موبايل" : "💻 كمبيوتر"
                 };
-            } catch (e) {
-                return { ip: "مخفي/محظور", network: "غير معروف", device: "متصفح آمن" };
+            } catch(e) {
+                return { ip: "مخفي", provider: "مزود شبكة محلي", device: navigator.userAgent.includes("Mobile") ? "📱 موبايل" : "💻 كمبيوتر" };
             }
         }
 
-        // دالة التسجيل ونظام الإحالات المتكامل
-        document.getElementById('btn-register').addEventListener('click', async () => {
-            const email = document.getElementById('reg-email').value.trim();
-            const password = document.getElementById('reg-pass').value.trim();
-            const refInput = document.getElementById('reg-ref').value.trim().toUpperCase();
+        // تنفيذ عملية الدخول أو إنشاء الحساب بنظام الإحالة المطور
+        document.getElementById('btn-auth').addEventListener('click', async () => {
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-pass').value.trim();
+            const refInput = document.getElementById('auth-ref').value.trim().toUpperCase();
 
-            if(!email || !password) return alert("برجاء ملء البيانات كاملة!");
+            if (!email || !password) return alert("من فضلك املأ جميع الحقول الأساسية!");
+
+            if (currentMode === 'register') {
+                try {
+                    const netData = await getDeviceNetworkDetails();
+                    const credential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = credential.user;
+                    
+                    // توليد كود إحالة مميز وجديد للاعب يبدأ بـ XXSB
+                    const generatedRefCode = "XXSB-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+                    
+                    let referredByUid = null;
+                    // فحص كود الإحالة المدخل (اختياري) لمنح المكافأة لصاحب الكود
+                    if (refInput) {
+                        const q = query(collection(db, "users"), where("referralCode", "==", refInput));
+                        const querySnap = await getDocs(q);
+                        if (!querySnap.empty) {
+                            const referrerDoc = querySnap.docs[0];
+                            referredByUid = referrerDoc.id;
+                            
+                            // منح بونص 1000 ج.م لحساب الشخص المستضيف
+                            await updateDoc(doc(db, "users", referrerDoc.id), {
+                                balance: increment(1000)
+                            });
+                        }
+                    }
+
+                    // حفظ بيانات اللاعب الجديد مع بونص ترحيبي 5000 ج.م في الداتابيز
+                    await setDoc(doc(db, "users", user.uid), {
+                        email: email,
+                        balance: 5000,
+                        referralCode: generatedRefCode,
+                        referredBy: referredByUid,
+                        ipAddress: netData.ip,
+                        networkProvider: netData.provider,
+                        deviceType: netData.device,
+                        joinedAt: new Date().toISOString()
+                    });
+
+                    alert("🎉 مبروك! تم إنشاء حسابك بنجاح وحصلت على بونص ترحيبي 5000 ج.م للعب!");
+                } catch (err) {
+                    alert("خطأ أثناء تسجيل الحساب: " + err.message);
+                }
+            } else {
+                // تسجيل الدخول العادي للمشتركين الحقيقيين بالمنصة
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } catch (err) {
+                    alert("تعذر تسجيل الدخول: " + err.message);
+                }
+            }
+        });
+
+        // متابعة وتحديث رصيد وبيانات اللاعب لايف في الواجهة عند الدخول
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                document.getElementById('auth-container').classList.add('hidden');
+                document.getElementById('dashboard-container').classList.remove('hidden');
+                
+                const userDocRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists()) {
+                    currentUserData = userDoc.data();
+                    document.getElementById('user-email-display').innerText = currentUserData.email;
+                    document.getElementById('user-balance-display').innerText = currentUserData.balance;
+                    document.getElementById('my-ref-code').innerText = currentUserData.referralCode;
+                }
+            } else {
+                document.getElementById('auth-container').classList.remove('hidden');
+                document.getElementById('dashboard-container').classList.add('hidden');
+            }
+        });
+
+        // إرسال طلب مالي (إيداع شحن / سحب أرباح) رسمي للإدارة
+        document.getElementById('btn-submit-request').addEventListener('click', async () => {
+            const user = auth.currentUser;
+            if (!user || !currentUserData) return;
+
+            const type = document.getElementById('action-type').value;
+            const wallet = document.getElementById('wallet-provider').value;
+            const amount = parseInt(document.getElementById('action-amount').value);
+            const inputNumber = document.getElementById('action-number').value.trim();
+
+            if (!amount || amount <= 0 || !inputNumber) {
+                return alert("يرجى إدخال مبلغ صحيح ورقم التحويل بالكامل.");
+            }
+
+            // في حالة السحب: نتحقق أولاً هل رصيد اللاعب كافي قبل إرسال الطلب للمعالجة؟
+            if (type === 'withdraw' && currentUserData.balance < amount) {
+                return alert("⚠️ رصيدك الحالي أقل من المبلغ المراد سحبه!");
+            }
 
             try {
-                // 1. جلب بيانات جهاز المستخدم وشبكته فوراً
-                const netData = await fetchNetworkData();
-
-                // 2. إنشاء الحساب في الـ Authentication
-                const credential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = credential.user;
-
-                // 3. توليد كود إحالة فريد خاص باللاعب الجديد
-                const newRefCode = "XXSB-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-
-                // 4. التحقق من كود الإحالة المدخل إذا وجد لمنح الـ 1000 ج.م
-                let referrerUid = null;
-                if(refInput) {
-                    const q = query(collection(db, "users"), where("referralCode", "==", refInput));
-                    const querySnap = await getDocs(q);
-                    if(!querySnap.empty) {
-                        const referrerDoc = querySnap.docs[0];
-                        referrerUid = referrerDoc.id;
-                        // إضافة بونص 1000 ج.م للشخص الذي قام بالإحالة
-                        await updateDoc(doc(db, "users", referrerUid), {
-                            balance: increment(1000)
-                        });
-                    }
+                // تجميد وخصم الرصيد مبدئياً من اللاعب إذا كان الإجراء طلب سحب منعاً للتلاعب
+                if (type === 'withdraw') {
+                    await updateDoc(doc(db, "users", user.uid), {
+                        balance: increment(-amount)
+                    });
+                    // تحديث محلي سريع للرصيد بالشاشة
+                    document.getElementById('user-balance-display').innerText = parseInt(document.getElementById('user-balance-display').innerText) - amount;
                 }
 
-                // 5. حفظ بيانات اللاعب كاملة بالبونص (5000 ج.م) في الـ Database
-                await setDoc(doc(db, "users", user.uid), {
-                    email: email,
-                    balance: 5000, 
-                    referralCode: newRefCode,
-                    referredBy: referrerUid,
-                    ipAddress: netData.ip,
-                    networkProvider: netData.network,
-                    deviceType: netData.device,
-                    joinedAt: new Date()
-                });
+                // تجهيز الهيكل الموحد لرفعه بجدول الطلبات `requests` ليظهر بلوحة تحكم الإدارة
+                const requestData = {
+                    uid: user.uid,
+                    email: currentUserData.email,
+                    type: type,
+                    wallet: wallet,
+                    amount: amount,
+                    status: "pending",
+                    date: new Date().toISOString()
+                };
 
-                alert("تم التسجيل بنجاح وحصلت على بونص 5000 ج.م!");
+                if (type === 'deposit') {
+                    requestData.senderNumber = inputNumber;
+                } else {
+                    requestData.targetNumber = inputNumber;
+                }
 
-            } catch (err) {
-                alert("حدث خطأ أثناء التسجيل: " + err.message);
-            }
-        });
-
-        // مراقبة حالة اللاعب وتحديث الشاشة والرصيد لايف
-        onAuthStateChanged(auth, async (user) => {
-            if(user) {
-                document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('dashboard-screen').classList.remove('hidden');
+                await addDoc(collection(db, "requests"), requestData);
+                alert("🚀 تم إرسال طلبك بنجاح وهو الآن قيد المراجعة الفورية من قبل الإدارة.");
                 
-                const userDoc = await getDoc(doc(db, "users", user.uid));
-                if(userDoc.exists()) {
-                    const data = userDoc.data();
-                    document.getElementById('user-email').innerText = data.email;
-                    document.getElementById('user-balance').innerText = data.balance;
-                    document.getElementById('user-ref-code').innerText = data.referralCode;
-                }
+                document.getElementById('action-amount').value = "";
+                document.getElementById('action-number').value = "";
+            } catch(e) {
+                alert("خطأ أثناء إرسال المعاملة: " + e.message);
             }
         });
 
-        // تشغيل شاشة العمليات الوهمية/الحية لزيادة حماس اللاعبين
-        const players = ["بودا_الزعيم", "Mido_2026", "Alex_King", "Sayed_Fx", "Mariam_Bet", "Kms_User"];
-        const actions = ["كسب الضعف في XO 🔥", "سحب أرباح لكاش 💸", "أودع رصيد جديد 💳", "حصل على بونص الإحالة 🚀"];
+        window.logout = function() { signOut(auth); location.reload(); };
+
+        // تشغيل الرادار التلقائي لبث حماس اللاعبين
+        const players = ["بودا_الزعيم", "Abdo_Fx", "Mido_VIP", "Kareem_X", "Sayed_Pro", "Omar_Bet", "Ali_King"];
+        const feedActions = ["كسب الضعف في لعبة XO 🔥", "سحب أرباحه للمحفظة 💸", "شحن حسابه بونص جديد 💳", "حصل على مكافأة الإحالة 🚀"];
         setInterval(() => {
-            const feed = document.getElementById('live-operations');
-            const p = players[Math.floor(Math.random() * players.length)];
-            const a = actions[Math.floor(Math.random() * actions.length)];
-            const amount = Math.floor(Math.random() * 5000) + 1000;
-            
-            const item = document.createElement('div');
+            const list = document.getElementById("live-operations-box");
+            const item = document.createElement("div");
             item.className = 'feed-item';
-            item.innerHTML = `اللاعب <span style="color:#ffcc00">${p}</span> ${a} بقيمة <span style="color:#00ffcc">${amount} ج.م</span>`;
-            
-            feed.prepend(item);
-            if(feed.children.length > 4) feed.lastChild.remove();
-        }, 3000);
+            let p = players[Math.floor(Math.random() * players.length)];
+            let a = feedActions[Math.floor(Math.random() * feedActions.length)];
+            let amt = Math.floor(Math.random() * 6000) + 1000;
+            item.innerHTML = `اللاعب <b style="color:#00f3ff">${p}</b> ${a} - <b style="color:#00ff66">${amt} ج.م</b>`;
+            list.prepend(item);
+            if(list.children.length > 3) list.lastChild.remove();
+        }, 3500);
     </script>
 </body>
 </html>
